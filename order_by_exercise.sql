@@ -12,7 +12,7 @@ SELECT first_name, last_name
 FROM employees
 WHERE first_name IN ('Irena', 'Vidya', 'Maya')
 ORDER BY first_name;
--- First name is Irena Reutenauer and last name is Vidya Simmen
+-- 709 rows. First name is Irena Reutenauer and last name is Vidya Simmen
 
 
 -- 3. Find all employees with first names 'Irena', 'Vidya', or 'Maya', and order your results returned by first name and then last name. In your comments, answer: What was the first and last name in the first row of the results? What was the first and last name of the last person in the table? 
@@ -61,5 +61,5 @@ SELECT *
 FROM employees
 WHERE hire_date LIKE '199%'
 AND birth_date LIKE '%-12-25'
-ORDER BY hire_date;
--- Return 362 rows, the first Alselm Cappello and the last Khun Bernini
+ORDER BY birth_date, hire_date DESC;
+-- Return 362 rows, the last Douadi Pettis and the first is Khun Bernini
