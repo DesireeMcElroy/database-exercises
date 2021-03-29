@@ -68,6 +68,10 @@ AND birth_date LIKE '%-12-25'
 ORDER BY birth_date, hire_date DESC;
 -- Return 362 rows, the last Douadi Pettis and the first is Khun Bernini
 
+
+
+-- Functions Exercises
+
 -- 2 Write a query to to find all employees whose last name starts and ends with 'E'. Use concat() to combine their first and last name together as a single column named full_name. 
 
  
