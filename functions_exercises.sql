@@ -1,3 +1,9 @@
+-- Functions exercises
+
+
+-- Copy order by exercises then do functions exercises
+
+
 USE employees;
 
 SELECT DATABASE();
@@ -9,6 +15,8 @@ FROM employees;
 SHOW TABLES;
 
 DESCRIBE employees;
+--- order by exercises
+
 
 -- 2. Find all employees with first names 'Irena', 'Vidya', or 'Maya', and order your results returned by first name. In your comments, answer: What was the first and last name in the first row of the results? What was the first and last name of the last person in the table? 
 
@@ -69,7 +77,7 @@ ORDER BY birth_date, hire_date DESC;
 -- Return 362 rows, the last Douadi Pettis and the first is Khun Bernini
 
 
-
+-- **************************************
 -- Functions Exercises
 
 -- 2 Write a query to to find all employees whose last name starts and ends with 'E'. Use concat() to combine their first and last name together as a single column named full_name. 
@@ -114,17 +122,16 @@ WHERE to_date NOT LIKE '9999%';
  SELECT
  	LOWER(
  		CONCAT(
- 			SUBSTRING(first_name, 1, 1),
- 			SUBSTRING(last_name, 1, 4), 
+ 			SUBSTR(first_name, 1, 1),
+ 			SUBSTR(last_name, 1, 4), 
  			'_', 
- 			SUBSTRING(birth_date, 6, 2), 
- 			SUBSTRING(YEAR(birth_date), 3, 2)
+ 			SUBSTR(birth_date, 6, 2), 
+ 			SUBSTR(birth_date, 3, 2)
  				) 
- 			) AS 'username',
- 			first_name,
- 			last_name,
- 			birth_date
- FROM employees
+ 			) AS username,
+ 		count(*) AS number_duplicates
+FROM employees
+GROUP BY username
  LIMIT 20;
 
 -- OR
@@ -136,7 +143,7 @@ WHERE to_date NOT LIKE '9999%';
  			CAST(last_name AS CHAR(4)), 
  			'_', 
  			SUBSTRING(birth_date, 6, 2), 
- 			SUBSTRING(YEAR(birth_date), 3, 2)
+ 			SUBSTRING(birth_date, 3, 2)
  				) 
  			) AS 'username',
  			first_name,
@@ -144,3 +151,6 @@ WHERE to_date NOT LIKE '9999%';
  			birth_date
  FROM employees
  LIMIT 20;
+
+
+
