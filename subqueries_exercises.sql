@@ -34,6 +34,44 @@ WHERE emp_no IN(
 AND to_date > NOW();
 
 
+-- got a step further
+
+SELECT title, count(title) AS number_of_employees
+FROM titles
+WHERE emp_no IN(
+	SELECT emp_no
+	FROM employees
+	WHERE first_name LIKE 'Aamod'
+	)
+AND to_date > NOW()
+GROUP BY title
+ORDER BY number_of_employees DESC;
+
+
+-- Personal notes: Ray's version
+
+SELECT
+      t.title AS 'Titles Held by Aamods',
+      COUNT(t.title) AS 'Total Aamods Who Held Title'
+FROM titles AS t
+WHERE
+      t.emp_no IN
+      (
+            SELECT
+                  e.emp_no
+            FROM employees AS e
+            JOIN salaries AS s
+                  ON e.emp_no = s.emp_no
+                        AND s.to_date > CURDATE()
+            WHERE
+                first_name LIKE 'Aamod'
+      )
+GROUP BY
+      t.title
+;
+
+
+
 
 -- 3. How many people in the employees table are no longer working for the company? Give the answer in a comment in your code. 
 -- I get 59,900.
@@ -43,7 +81,7 @@ FROM employees
 WHERE emp_no NOT IN(
 	SELECT emp_no
 	FROM dept_emp
-	WHERE to_date > curdate() -- '9999%' doesn't work here because it includes employees that change titles that have end dates.
+	WHERE to_date > '9999%'
 	);
 
 
@@ -81,8 +119,31 @@ AND to_date > curdate();
 
 
 -- 6. How many current salaries are within 1 standard deviation of the current highest salary? (Hint: you can use a built in function to calculate the standard deviation.) What percentage of all salaries is this?
+-- First
 
+SELECT
+	MAX(salary) AS max_salary,
+	MIN(salary) AS min_salary,
+	STDDEV(salary) AS std_dev
+FROM salaries
+WHERE to_date > CURDATE();
+-- gives me 158,220 max AND 38,623 min salary WITH std_dev 17309.96
 
-
+SELECT
+(SELECT
+	COUNT(salary)
+FROM salaries
+WHERE to_date > CURDATE()
+	AND salary >= (
+					SELECT
+					MAX(salary) - STDDEV(salary)
+					FROM salaries
+					WHERE to_date > CURDATE()
+					))
+/
+(SELECT
+	COUNT(salary)
+FROM salaries
+WHERE to_date > CURDATE()) * 100 AS percent_of_salaries;
 
  
