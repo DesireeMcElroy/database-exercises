@@ -100,39 +100,47 @@ MODIFY COLUMN amount INT;
 
 -- 3. Find out how the current average pay in each department compares to the overall, historical average pay. In order to make the comparison easier, you should use the Z-score for salaries. In terms of salary, what is the best department right now to work for? The worst? 
 
--- current average pay in each department
-USE employees;
 
-CREATE TEMPORARY TABLE average_dept_salary AS
-(SELECT dept_no, AVG(salary)
-FROM employees.salaries
-JOIN employees.dept_emp ON employees.dept_emp.emp_no = employees.salaries.emp_no
-WHERE employees.salaries.to_date > curdate()
-GROUP BY dept_no);
+
+-- current average pay in each department
+CREATE TEMPORARY TABLE avg_dept_sal AS
+(
+	SELECT 
+			employees.departments.dept_no,
+			AVG(employees.salaries.salary) AS avg_salary
+			FROM employees.salaries
+			JOIN employees.dept_emp ON employees.salaries.emp_no = 			employees.dept_emp.emp_no
+			AND employees.dept_emp.to_date > curdate()
+			JOIN employees.departments ON 			employees.departments.dept_no = 			employees.dept_emp.dept_no
+			WHERE employees.salaries.to_date > curdate()
+			GROUP BY employees.departments.dept_no
+			); 
 
 -- Now create query for overall average salary
-CREATE TEMPORARY TABLE average_overall_salary AS
 (SELECT AVG(salary)
 FROM employees.salaries);
 -- 63,810
 
-SELECT *
-FROM average_dept_salary;
+-- We know
+-- z score = (x - AVG()) / STDDEV() 
+ 
+SELECT stddev(employees.salaries.salary)
+FROM employees.salaries;
+-- We get 16904.8283
 
-SELECT *
-FROM average_overall_salary;
-
--- now create a z score query
-
-
--- z score (x - AVG()) / STDDEV() 
-
-
-
-
-
-/*
-
-;
-*/
+			
+SELECT
+	employees.departments.dept_name,
+      (avg_dept_sal.avg_salary - AVG(employees.salaries.salary)) / STDDEV(employees.salaries.salary) AS z_score
+FROM employees.departments
+JOIN employees.dept_emp
+      ON employees.departments.dept_no = employees.dept_emp.dept_no
+JOIN employees.salaries
+      ON employees.dept_emp.emp_no = employees.salaries.emp_no
+JOIN avg_dept_sal
+      ON employees.dept_emp.dept_no = avg_dept_sal.dept_no
+GROUP BY
+      employees.departments.dept_name,
+      avg_dept_sal.avg_salary
+ORDER BY z_score;
 
