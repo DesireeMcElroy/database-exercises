@@ -7,6 +7,15 @@ USE employees;
 SELECT *
 FROM employees;
 -- 300,024
+
+
+select title
+from titles
+where (
+SELECT count(distinct(title))
+FROM titles);
+
+
 USE florence08;
 /* 
 CREATE TEMPORARY TABLE disctinct_emp AS
