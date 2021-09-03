@@ -1,3 +1,2 @@
-SQL database exercises
+This repository holds all my SQL exercises.
 
-Test Test
