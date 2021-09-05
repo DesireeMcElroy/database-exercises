@@ -42,37 +42,32 @@ SELECT DATABASE();
 
 USE employees;
 
-# Below will show the current database
+-- Below will show the current database
 SELECT DATABASE();
 
-# List all the tables in the database
+-- List all the tables in the database
 SHOW TABLES;
 
-# 5. Explore the employees table. What different data types are present on this table?
+-- 5. Explore the employees table. What different data types are present on this table?
 DESCRIBE employees;
 
 -- Types of DATA among the TABLES are numbers, strings, AND nulls including INT, VARCHAR(), NULL, AND date.
 
 
-# 6. Which table(s) do you think contain a numeric type column?
-
+-- 6. Which table(s) do you think contain a numeric type column?
 -- I believe only salaries, employee AND titles will contain a NUMERIC TYPE COLUMN due TO salary AND employee id number.
 
 
-# 7. Which table(s) do you think contain a string type column?
-
+-- 7. Which table(s) do you think contain a string type column?
 -- ALL of the TABLES including departments, dept_emp, dept_manager, employees, salaries, AND titles ALL contain a STRING TYPE
 
-# 8. Which table(s) do you think contain a date type column?
-
+-- 8. Which table(s) do you think contain a date type column?
 -- The TABLES dept_emp, dept_manager, employees, salaries, AND titles ALL contain a DATE TYPE column.
 
-# 9. What is the relationship between the employees and the departments tables?
-
+-- 9. What is the relationship between the employees and the departments tables?
 -- Employees are departments USE the same DATA types such AS INT, VARCHAR() AND NOT null. 
 
 --  10. SHOW the SQL that created the dept_manager table.
-
 SHOW CREATE TABLE employees;
 
 
@@ -105,7 +100,7 @@ DESCRIBE albums;
 SHOW albums;
 
 SELECT *
-	FROM albums;
+FROM albums;
 -- There are 31 rows.
 
 SELECT DISTINCT artist
@@ -116,8 +111,8 @@ DESCRIBE albums;
 -- The primary key is id.
 
 SELECT *
-	FROM albums
-	ORDER BY release_date;
+FROM albums
+ORDER BY release_date;
 -- The oldest release date is 1967.
 -- The most recent release date is 2011
 
